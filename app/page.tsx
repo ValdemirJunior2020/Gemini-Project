@@ -1,42 +1,25 @@
-
-const {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} = require("@google/generative-ai");
-
-const apiKey = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey);
-
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-});
-
-const generationConfig = {
-  temperature: 1,
-  topP: 0.95,
-  topK: 64,
-  maxOutputTokens: 8192,
-  responseMimeType: "text/plain",
-};
-
+'use client';
+import { useState } from "react";
+import {runAi} from "@/actions/ai";
 export default function Page() {
-  async function run() {
-    const chatSession = model.startChat({
-      generationConfig,
-   // safetySettings: Adjust safety settings
-   // See https://ai.google.dev/gemini-api/docs/safety-settings
-      history: [
-      ],
-    });
-  
-    const result = await chatSession.sendMessage("Write a two lines zen story");
+  //state
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+  const handleClick = async () => {
+    setLoading(true);
+    try {
+      const data = await runAi();
+      setResponse(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
-    return result.response.text();
-  }
-
-  return <>{run()}</>;
-  
+  return (<><button onClick={handleClick}>Run AI</button>
+  <hr />
+  <div>{ loading ? 'Loading...' : response }</div>
+  </>
+  );
 }
-
