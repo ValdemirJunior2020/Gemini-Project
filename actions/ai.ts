@@ -20,11 +20,11 @@ const generationConfig = {
   responseMimeType: "text/plain",
 };
 
-// Update the runAi function to accept user input (query)
 export async function runAi(query: string) {
+  // Start a new chat session each time to avoid reusing previous responses
   const chatSession = model.startChat({
     generationConfig,
-    history: [],
+    history: [],  // Clear history to prevent repeating the previous response
   });
 
   // Send the user's query to the AI model
