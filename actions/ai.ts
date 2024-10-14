@@ -1,4 +1,3 @@
-
 'use server';
 const {
   GoogleGenerativeAI,
@@ -21,21 +20,16 @@ const generationConfig = {
   responseMimeType: "text/plain",
 };
 
+// Update the runAi function to accept user input (query)
+export async function runAi(query: string) {
+  const chatSession = model.startChat({
+    generationConfig,
+    history: [],
+  });
 
-  export async function runAi() {
-    const chatSession = model.startChat({
-      generationConfig,
-   // safetySettings: Adjust safety settings
-   // See https://ai.google.dev/gemini-api/docs/safety-settings
-      history: [
-      ],
-    });
-  
-    const result = await chatSession.sendMessage("Write a two lines zen story");
+  // Send the user's query to the AI model
+  const result = await chatSession.sendMessage(query);
 
-
-    return result.response.text();
-  }
-
-  
-
+  // Return the AI's response
+  return result.response.text();
+}
