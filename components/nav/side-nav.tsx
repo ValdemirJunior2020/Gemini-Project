@@ -1,7 +1,11 @@
-import React from 'react'
-import { LayoutDashboard, FileClock, WalletCards, Settings } from "lucide-react"
+'use client';
+import React from 'react';
+import Link from 'next/link';
+import { LayoutDashboard, FileClock, WalletCards, Settings } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function SideNav() {
+  const path = usePathname();
   const menu = [
     {
       name: 'Dashboard',
@@ -15,7 +19,7 @@ export default function SideNav() {
     },
     {
       name: 'Billing',
-      icon: WalletCards, // Fixed here
+      icon: WalletCards,
       path: '/dashboard/billing'
     },
     {
@@ -23,20 +27,33 @@ export default function SideNav() {
       icon: Settings,
       path: '/dashboard/settings'
     }
-  ]
+  ];
+
+  console.log(path);
 
   return (
     <div className="h-screen p-5 shadow-sm border">
       {menu.map((item, index) => (
-        <div key={index} className="flex m-2 mr-4 p-2 hover:bg-primary hover:text-white rounded-lg cursor-pointer">
-          <div className="flex">
-            <item.icon /> <span className="ml-2">{item.name}</span>
-          </div>
+        <div
+          key={index}
+          className={`${
+            path === item.path
+              ? "bg-primary text-white"
+              : "hover:bg-primary hover:text-white"
+          } flex m-2 mr-4 p-2 rounded-lg cursor-pointer`}
+        >
+          <Link href={item.path}>
+            <div className="flex">
+              <item.icon /> <span className="ml-2">{item.name}</span>
+            </div>
+          </Link>
         </div>
       ))}
     </div>
   );
+  
+  
+  
 }
 
-
-<LayoutDashboard />
+<LayoutDashboard />;
