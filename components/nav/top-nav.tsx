@@ -8,6 +8,10 @@ import {
     useUser,
   } from '@clerk/nextjs';
 import Link from "next/link";
+import Image from "next/image";
+import { ModeToggle } from "@/components/mode-toggle";
+
+
 export default function TopNav() {
     const {isSignedIn, user} = useUser();
 
@@ -28,6 +32,9 @@ export default function TopNav() {
           <SignedIn>
             <UserButton />
           </SignedIn>
+          <div className="ml-2">
+            <ModeToggle />
+          </div>
           </div>
           </nav>
       );
