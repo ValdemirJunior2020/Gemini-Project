@@ -32,7 +32,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="col-span-1 bg-slate-100 dark:bg-slate-900 rounded-md border p-5">
         <div className="flex flex-col gap-3"> 
           'image, name, desc' 
-          {/* Centralized Input field */}
+          {/* Centralized Input field for blog title */}
           <div className="mt-4 flex flex-col items-center">
             <label className="font-bold pb-2 text-center">Enter your blog title</label>
             <Input name="blogTitle" className="text-center" required />
@@ -40,18 +40,21 @@ export default function Page({ params }: { params: { slug: string } }) {
         </div>
       </div> 
 
+      {/* Make sure no unwanted form fields are rendered */}
       <form className="mt-6 col-span-2">
-        {t.form.map((item) => (
-          <div className="my-2 flex flex-col gap-2 mb-7" key={item.name}>
-            <label className="font-bold pb-5">{item.label}</label>
+        {t.form
+          .filter((item) => item.name === "blogTitle") // Render only the "blogTitle" input field
+          .map((item) => (
+            <div className="my-2 flex flex-col gap-2 mb-7" key={item.name}>
+              <label className="font-bold pb-5">{item.label}</label>
 
-            {item.field === "input" ? (
-              <Input name={item.name} required={item.required} />
-            ) : (
-              <Textarea name={item.name} required={item.required} />
-            )}
-          </div>
-        ))}
+              {item.field === "input" ? (
+                <Input name={item.name} required={item.required} />
+              ) : (
+                <Textarea name={item.name} required={item.required} />
+              )}
+            </div>
+          ))}
       </form>
     </div>
   );
